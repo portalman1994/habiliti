@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { navigate, navigationRef } from './RootNavigation';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { CalendarScreen, LoginScreen, HabitDetailScreen, HomeScreen, RegistrationScreen } from './screens';
+import { LoginScreen, HabitDetailScreen, HomeScreen, RegistrationScreen } from './screens';
 
 import { firebase } from './firebase/config';
 import { decode, encode } from 'base-64';
@@ -14,7 +14,7 @@ if (!global.atob) { global.atob = decode }
 const Stack = createStackNavigator();
 
 export default function App() {
-
+  
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
@@ -53,11 +53,12 @@ export default function App() {
           <Stack.Screen name='Home'>
             {props => <HomeScreen {...props} extraData={user} />}
           </Stack.Screen>
-          <Stack.Screen name='HabitDetail' options={({ route }) => ({ title: route.params.habit.title, headerRight: () => <Icon name='calendar' size={30} color='black' style={{marginRight: 10}} onPress={() => navigate('Calendar', { habit: route.params.habit })} />})}>
+          <Stack.Screen name='HabitDetail' options={({ route }) => ({ title: route.params.habit.title, headerRight: () => <Icon name='trash' size={30} color='black' style={{marginRight: 20}} onPress={() => navigate('Home', firebase.firestore().collection('habits').doc(route.params.habit.id).delete().then(() => {
+                            console.log('Habit deleted successfully');
+                        }).catch((error) => {
+                            console.error('Error removing habit: ', error);
+                        }))} />})}>
             {props => <HabitDetailScreen {...props} extraData={user} options={{}} />}
-          </Stack.Screen>
-          <Stack.Screen name='Calendar'>
-            {props => <CalendarScreen {...props} extraData={user} />}
           </Stack.Screen>
           </>
         ) : (
