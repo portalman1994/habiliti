@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { firebase } from '../../firebase/config';
 import styles from './styles';
 
@@ -45,10 +46,8 @@ export default function LoginScreen({navigation}) {
                 style={{ flex: 1, width: '100%' }}
                 keyboardShouldPersistTaps='always'
             >
-                <Image
-                    style={styles.logo}
-                    source={require('../../assets/icon.png')}
-                />
+                <Icon name='leaf' style={{alignSelf: 'center', marginTop: 30, backgroundColor: 'white', borderRadius: 100}} size={100} color='lightgreen' />
+                <Text style={{fontWeight: 'bold', alignSelf: 'center', margin: 10}}>Turn over a new leaf with Habiliti</Text>
                 <TextInput
                     style={styles.input}
                     placeholder='E-mail'
